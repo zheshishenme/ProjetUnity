@@ -12,24 +12,45 @@ public class ControlleurJeu : MonoBehaviour {
 		// Here we use the ?? operator, to return 'instance' if 'instance' does not equal null
 		// otherwise we assign instance to a new component and return that
 		get { 
-			return instance ?? (instance = new GameObject("Singleton").AddComponent<ControlleurJeu>()); 
+			return instance ?? (instance = new GameObject("Singleton Controleur joueur").AddComponent<ControlleurJeu>()); 
 		}
 	}
 	#endregion
-	
+
+
+	float timeFromStart = 0;
+	float timer = 0;
+	bool bonusHere = false;
+
 	public bool start = false;
 	bool ask = false;
-
+	
 	// Update is called once per frame
 	void Update () {
 		if(Input.GetKey(KeyCode.Space)){
 			start = true;
 		}
+
+		if(start){
+			timeFromStart += Time.deltaTime;
+			timer+= Time.deltaTime;
+
+			if(timer >= 5){
+				if(!bonusHere){
+					creerSpeedUpBonnus(timer);
+				}
+
+				timer = 0;
+			}
+		}
+		else{
+			timeFromStart = 0;
+		}
+
 	}
 
 	public void askNewGame(){
 		ask = true;
-
 	}
 
 	/// <summary>
@@ -78,5 +99,11 @@ public class ControlleurJeu : MonoBehaviour {
 		
 		go = Instantiate(joueur2,joueur2.transform.position, joueur2.transform.rotation) as GameObject;
 		go.name = "Joueur2";
+	}
+
+	void creerSpeedUpBonnus(float t){
+		GameObject speedup = Resources.Load("SpeedUp5")as GameObject;
+		Instantiate(speedup,speedup.transform.position, speedup.transform.rotation);
+		bonusHere = true;
 	}
 }

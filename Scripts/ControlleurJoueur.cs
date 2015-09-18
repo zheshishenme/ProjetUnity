@@ -1,14 +1,69 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ControlleurJoueur : MonoBehaviour {
+public class ControlleurJoueur : MonoBehaviour{
+	
+	#region singleton
+	private static ControlleurJoueur instance;
+	
+	// Static singleton property
+	public static ControlleurJoueur Instance
+	{
+		// Here we use the ?? operator, to return 'instance' if 'instance' does not equal null
+		// otherwise we assign instance to a new component and return that
+		get { 
+			return instance ?? (instance = new GameObject("Singleton Controleur joueur").AddComponent<ControlleurJoueur>()); 
+		}
+	}
+	#endregion
 
-	// Use this for initialization
+	mouvement scriptMouvement;
+
+
 	void Start () {
 		gameObject.transform.Find("Main Camera").GetComponent<cam>().target = gameObject.transform.Find("tete").GetComponent<Transform>();
 		//GameObject.Find("Main Camera").GetComponent<cam>().target = GameObject.Find("tete").GetComponent<Transform>();
+
+		scriptMouvement = gameObject.transform.Find("tete").GetComponent<mouvement>();
 	}
 
+	void Update(){
+		if(ControlleurJeu.Instance.start){
+			if(gameObject.name =="Joueur"){
+				gameObject.transform.Find("tete").GetComponent<mouvement>().trait = Resources.Load("traitRouge") as GameObject;
+				if(Input.GetKey(KeyCode.RightArrow)){
+
+					scriptMouvement.droite();
+				}
+				
+				if(Input.GetKey(KeyCode.LeftArrow)){
+					scriptMouvement.gauche();
+				}
+				
+			}
+			
+			
+			else if(gameObject.name == "Joueur2"){
+				gameObject.transform.Find("tete").GetComponent<mouvement>().trait = Resources.Load("traitBleu") as GameObject;
+				if(Input.GetKey(KeyCode.E)){
+					scriptMouvement.droite();
+				}
+				
+				if(Input.GetKey(KeyCode.A)){
+					scriptMouvement.gauche();
+				}
+				
+			}
+
+			/*if(Input.GetKey(KeyCode.UpArrow)){
+				haut();
+			}
+
+			if(Input.GetKey(KeyCode.DownArrow)){
+				Bas();
+			}*/
+		}
+	}
 	/// <summary>
 	/// Autodestruction 
 	/// </summary>
