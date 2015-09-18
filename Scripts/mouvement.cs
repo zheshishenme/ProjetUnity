@@ -13,6 +13,8 @@ public class mouvement : MonoBehaviour {
 	float angleRotation = 2f;
 	float chrono = -10;
 
+	public bool traceTrait = true; // permet de controler la trace du joueur;
+
 	GameObject papa;
 
 	void Start(){
@@ -21,17 +23,12 @@ public class mouvement : MonoBehaviour {
 	}
 	
 	void Update () {
-		if(ControlleurJeu.Instance.start){		
+		if(ControlleurJeu.Instance.gameStarted){		
 			avance();
 
-			GameObject obj = Instantiate(trait, sameY(positionTrait.transform.position), positionTrait.transform.rotation) as GameObject;
-			//GameObject obj = Instantiate(trait, positionTrait.transform.position, positionTrait.transform.rotation) as GameObject;
-			
-			//ajustement de la taille du corps en fonciton de la vitesse
-			obj.transform.localScale = new Vector3( obj.transform.localScale.x, speed * 0.5f, obj.transform.localScale.z); //speed 1 => scale 0.5  |||  speed 2 => scale = 2*0.5
-
-			obj.transform.parent = papa.transform;
-			obj.name="Trait";
+			if(traceTrait){
+				trace();
+			}
 		}
 
 		if(chrono != -10f){
@@ -51,6 +48,20 @@ public class mouvement : MonoBehaviour {
 	Vector3 sameY(Vector3 vectorToFreezeY){
 		Vector3 result = new Vector3 (vectorToFreezeY.x,hauteurTrait,vectorToFreezeY.z);
 		return result;
+	}
+
+	/// <summary>
+	/// Permet de tracer le corps du joueur
+	/// </summary>
+	public void trace(){
+		GameObject obj = Instantiate(trait, sameY(positionTrait.transform.position), positionTrait.transform.rotation) as GameObject;
+		//GameObject obj = Instantiate(trait, positionTrait.transform.position, positionTrait.transform.rotation) as GameObject;
+		
+		//ajustement de la taille du corps en fonciton de la vitesse
+		obj.transform.localScale = new Vector3( obj.transform.localScale.x, speed * 0.5f, obj.transform.localScale.z); //speed 1 => scale 0.5  |||  speed 2 => scale = 2*0.5
+		
+		obj.transform.parent = papa.transform;
+		obj.name="Trait";
 	}
 
 	#region mouvements basiques

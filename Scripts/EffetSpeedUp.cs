@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Effet : MonoBehaviour {
+public class EffetSpeedUp : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
@@ -16,6 +16,7 @@ public class Effet : MonoBehaviour {
 	void OnTriggerEnter(Collider col){
 		if(col.tag =="tete"){
 			col.gameObject.GetComponent<mouvement>().ajouterSpeed(2f, 3f);
+			ControllerBonus.Instance.bonusSpeedUp=false;
 			Destroy (gameObject);
 		}
 	}

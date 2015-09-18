@@ -28,7 +28,7 @@ public class ControlleurJoueur : MonoBehaviour{
 	}
 
 	void Update(){
-		if(ControlleurJeu.Instance.start){
+		if(ControlleurJeu.Instance.gameStarted){
 			if(gameObject.name =="Joueur"){
 				gameObject.transform.Find("tete").GetComponent<mouvement>().trait = Resources.Load("traitRouge") as GameObject;
 				if(Input.GetKey(KeyCode.RightArrow)){
@@ -41,8 +41,7 @@ public class ControlleurJoueur : MonoBehaviour{
 				}
 				
 			}
-			
-			
+
 			else if(gameObject.name == "Joueur2"){
 				gameObject.transform.Find("tete").GetComponent<mouvement>().trait = Resources.Load("traitBleu") as GameObject;
 				if(Input.GetKey(KeyCode.E)){

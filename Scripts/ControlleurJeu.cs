@@ -20,35 +20,41 @@ public class ControlleurJeu : MonoBehaviour {
 
 	float timeFromStart = 0;
 	float timer = 0;
-	bool bonusHere = false;
-
-	public bool start = false;
+	public bool gameStarted = false;
 	bool ask = false;
-	
-	// Update is called once per frame
-	void Update () {
-		if(Input.GetKey(KeyCode.Space)){
-			start = true;
-		}
 
-		if(start){
+	void Update () {
+		if(gameStarted){
 			timeFromStart += Time.deltaTime;
 			timer+= Time.deltaTime;
 
 			if(timer >= 5){
-				if(!bonusHere){
-					creerSpeedUpBonnus(timer);
-				}
 
+				///// test ///
+			 	/*
+				GameObject joueur = GameObject.Find("Joueur");
+				joueur.transform.Find("tete").GetComponent<mouvement>().traceTrait = false;
+				*/
+				///// fin test ////
+
+				if(!ControllerBonus.Instance.bonusSpeedUp){
+					ControllerBonus.Instance.creerSpeedUpBonnus();
+				}
 				timer = 0;
 			}
 		}
 		else{
+			if(Input.GetKey(KeyCode.Space)){
+				gameStarted = true;
+			}
 			timeFromStart = 0;
 		}
 
 	}
 
+	/// <summary>
+	/// Asks the new game.
+	/// </summary>
 	public void askNewGame(){
 		ask = true;
 	}
@@ -67,6 +73,12 @@ public class ControlleurJeu : MonoBehaviour {
 					Destroy(obj);
 				}
 
+				// destruction des bonnus SpeedUp5
+				foreach ( GameObject obj in GameObject.FindGameObjectsWithTag("speedUp5")){
+					Destroy(obj);
+					ControllerBonus.Instance.bonusSpeedUp = false;
+				}
+
 				// destruction des joueurs
 				foreach ( GameObject obj in GameObject.FindGameObjectsWithTag("joueur")){
 					Destroy(obj);
@@ -74,13 +86,13 @@ public class ControlleurJeu : MonoBehaviour {
 
 				createNewPlayer();
 
-				start = false;
+				gameStarted = false;
 				ask = false;
 			}
 		}
-		if(!start){
+		if(!gameStarted){
 			if(GUI.Button(new Rect(Screen.width/2 -40, Screen.height/2+20,250,60),"Appuyer sur espace pour commencer")){
-				start = true;
+				gameStarted = true;
 			}
 		}
 	}
@@ -99,11 +111,5 @@ public class ControlleurJeu : MonoBehaviour {
 		
 		go = Instantiate(joueur2,joueur2.transform.position, joueur2.transform.rotation) as GameObject;
 		go.name = "Joueur2";
-	}
-
-	void creerSpeedUpBonnus(float t){
-		GameObject speedup = Resources.Load("SpeedUp5")as GameObject;
-		Instantiate(speedup,speedup.transform.position, speedup.transform.rotation);
-		bonusHere = true;
 	}
 }
