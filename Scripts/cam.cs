@@ -65,7 +65,7 @@ public class cam : MonoBehaviour
 	}
 	
 	/**
-* La caméra se met a jour après tous la gestion de tous les mouvements du personnage
+* La caméra se met a jour après la gestion de tous les mouvements du personnage
 */
 	void LateUpdate ()
 	{

@@ -9,6 +9,9 @@ public class ControlleurJoueur : MonoBehaviour {
 		//GameObject.Find("Main Camera").GetComponent<cam>().target = GameObject.Find("tete").GetComponent<Transform>();
 	}
 
+	/// <summary>
+	/// Autodestruction 
+	/// </summary>
 	public void detruire(){
 		Destroy(gameObject);
 	}
