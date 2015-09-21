@@ -36,12 +36,14 @@ public class cam : MonoBehaviour
 	void Start ()
 	{
 		Vector3 angles = transform.eulerAngles;
-		xDeg = angles.x;
-		yDeg = angles.y;
+		xDeg = angles.x + 45;
+		yDeg = angles.y + 45;
 		
 		distanceActuelle = distance;
 		distanceDesiree = distance;
 		distanceCorrigee = distance;
+
+		transform.localEulerAngles = new Vector3(30,350,0);
 		
 		// Le rigide body ne doit pas changer de rotation
 		//if (rigidbody)
