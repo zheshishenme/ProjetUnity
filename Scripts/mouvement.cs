@@ -11,9 +11,9 @@ public class mouvement : MonoBehaviour {
 	public float speed = 1f;
 	float speedAdded;
 	float angleRotation = 2f;
-	float chrono = -10;
-
 	public bool traceTrait = true; // permet de controler la trace du joueur;
+
+	float timeTrace=0;
 
 	GameObject papa;
 
@@ -27,17 +27,15 @@ public class mouvement : MonoBehaviour {
 			avance();
 
 			if(traceTrait){
-				trace();
+				timeTrace+=Time.deltaTime;
+				if(timeTrace >= 0.1f/speed){
+					trace();
+					timeTrace=0;
+				}
 			}
 		}
 
-		if(chrono != -10f){
-			chrono-=Time.deltaTime;
 
-			if(chrono<=0){
-				ajouterSpeed(-speedAdded,-10);
-			}
-		}
 	}
 
 	/// <summary>
@@ -58,7 +56,7 @@ public class mouvement : MonoBehaviour {
 		//GameObject obj = Instantiate(trait, positionTrait.transform.position, positionTrait.transform.rotation) as GameObject;
 		
 		//ajustement de la taille du corps en fonciton de la vitesse
-		obj.transform.localScale = new Vector3( obj.transform.localScale.x, speed * 0.5f, obj.transform.localScale.z); //speed 1 => scale 0.5  |||  speed 2 => scale = 2*0.5
+		//obj.transform.localScale = new Vector3( obj.transform.localScale.x, obj.transform.localScale.x , obj.transform.localScale.z); //speed 1 => scale 0.5  |||  speed 2 => scale = 2*0.5
 		
 		obj.transform.parent = papa.transform;
 		obj.name="Trait";
@@ -105,9 +103,7 @@ public class mouvement : MonoBehaviour {
 
 	#region boosters
 
-	public void ajouterSpeed(float speedToAdd, float duration){
-		speedAdded = speedToAdd;
-		chrono = duration;
+	public void ajouterSpeed(float speedToAdd){
 		speed += speedToAdd;
 	}
 

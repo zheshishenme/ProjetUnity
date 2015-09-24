@@ -12,7 +12,7 @@ public class ControlleurJeu : MonoBehaviour {
 		// Here we use the ?? operator, to return 'instance' if 'instance' does not equal null
 		// otherwise we assign instance to a new component and return that
 		get { 
-			return instance ?? (instance = new GameObject("Singleton Controleur joueur").AddComponent<ControlleurJeu>()); 
+			return instance ?? (instance = new GameObject("Singleton Controleur Jeu").AddComponent<ControlleurJeu>()); 
 		}
 	}
 	#endregion
@@ -22,7 +22,7 @@ public class ControlleurJeu : MonoBehaviour {
 	float timer = 0;
 	public bool gameStarted = false;
 	bool ask = false;
-
+	
 	void Update () {
 		if(gameStarted){
 			timeFromStart += Time.deltaTime;
@@ -37,8 +37,11 @@ public class ControlleurJeu : MonoBehaviour {
 				*/
 				///// fin test ////
 
-				if(!ControllerBonus.Instance.bonusSpeedUp){
-					ControllerBonus.Instance.creerSpeedUpBonnus();
+				if(!ControllerBonus.Instance.bonusSpeedUpHere){
+					ControllerBonus.Instance.creerSpeedUpBonus();
+				}
+				if(!ControllerBonus.Instance.bonusDarkHere){
+					ControllerBonus.Instance.creerDarkBonus();
 				}
 				timer = 0;
 			}
@@ -76,7 +79,7 @@ public class ControlleurJeu : MonoBehaviour {
 				// destruction des bonnus SpeedUp5
 				foreach ( GameObject obj in GameObject.FindGameObjectsWithTag("speedUp5")){
 					Destroy(obj);
-					ControllerBonus.Instance.bonusSpeedUp = false;
+					ControllerBonus.Instance.bonusSpeedUpHere = false;
 				}
 
 				// destruction des joueurs
@@ -85,6 +88,8 @@ public class ControlleurJeu : MonoBehaviour {
 				}
 
 				createNewPlayer();
+
+				GameObject.Find("sun").GetComponent<Light>().enabled = true;
 
 				gameStarted = false;
 				ask = false;

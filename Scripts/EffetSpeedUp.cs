@@ -3,6 +3,10 @@ using System.Collections;
 
 public class EffetSpeedUp : MonoBehaviour {
 
+	float timer = -10f;
+	float speedToUp = 2;
+	GameObject playerAffected;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -10,14 +14,25 @@ public class EffetSpeedUp : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+
+		if(timer != -10f){
+			timer-=Time.deltaTime;
+			
+			if(timer<=0){
+				playerAffected.GetComponent<mouvement>().ajouterSpeed(-speedToUp);
+				ControllerBonus.Instance.bonusSpeedUpHere = false;
+				Destroy (gameObject);
+			}
+		}
 	}
 
 	void OnTriggerEnter(Collider col){
 		if(col.tag =="tete"){
-			col.gameObject.GetComponent<mouvement>().ajouterSpeed(2f, 3f);
-			ControllerBonus.Instance.bonusSpeedUp=false;
-			Destroy (gameObject);
+			playerAffected = col.gameObject;
+			timer = 5;
+			playerAffected.GetComponent<mouvement>().ajouterSpeed(speedToUp);
+			gameObject.GetComponent<MeshRenderer>().enabled = false;
+			gameObject.GetComponent<Collider>().enabled = false;
 		}
 	}
 }

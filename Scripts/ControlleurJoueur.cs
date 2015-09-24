@@ -21,9 +21,6 @@ public class ControlleurJoueur : MonoBehaviour{
 
 
 	void Start () {
-		gameObject.transform.Find("Main Camera").GetComponent<cam>().target = gameObject.transform.Find("tete").GetComponent<Transform>();
-		//GameObject.Find("Main Camera").GetComponent<cam>().target = GameObject.Find("tete").GetComponent<Transform>();
-
 		scriptMouvement = gameObject.transform.Find("tete").GetComponent<mouvement>();
 	}
 
@@ -53,14 +50,6 @@ public class ControlleurJoueur : MonoBehaviour{
 				}
 				
 			}
-
-			/*if(Input.GetKey(KeyCode.UpArrow)){
-				haut();
-			}
-
-			if(Input.GetKey(KeyCode.DownArrow)){
-				Bas();
-			}*/
 		}
 	}
 	/// <summary>
