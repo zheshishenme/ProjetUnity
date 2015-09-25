@@ -28,7 +28,10 @@ public class effetDark : MonoBehaviour {
 			eteindreLumiereAmbiante();
 			allumerSpotJoueur();
 			gameObject.GetComponent<MeshRenderer>().enabled = false;
-			gameObject.GetComponent<Collider>().enabled = false;
+			foreach(Collider c in gameObject.GetComponents<Collider>()){
+				c.enabled = false;
+			}
+
 			timer = 8;
 		}
 	}

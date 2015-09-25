@@ -15,10 +15,10 @@ public class mouvement : MonoBehaviour {
 
 	float timeTrace=0;
 
-	GameObject papa;
+	GameObject corps;
 
 	void Start(){
-		papa = transform.parent.gameObject;
+		corps = transform.parent.gameObject.transform.Find("corps").gameObject;
 		positionTrait = gameObject.transform.Find("departCorps").gameObject;
 	}
 	
@@ -53,12 +53,7 @@ public class mouvement : MonoBehaviour {
 	/// </summary>
 	public void trace(){
 		GameObject obj = Instantiate(trait, sameY(positionTrait.transform.position), positionTrait.transform.rotation) as GameObject;
-		//GameObject obj = Instantiate(trait, positionTrait.transform.position, positionTrait.transform.rotation) as GameObject;
-		
-		//ajustement de la taille du corps en fonciton de la vitesse
-		//obj.transform.localScale = new Vector3( obj.transform.localScale.x, obj.transform.localScale.x , obj.transform.localScale.z); //speed 1 => scale 0.5  |||  speed 2 => scale = 2*0.5
-		
-		obj.transform.parent = papa.transform;
+		obj.transform.parent = corps.transform;
 		obj.name="Trait";
 	}
 

@@ -19,15 +19,18 @@ public class EffetSpeedUp : MonoBehaviour {
 			timer-=Time.deltaTime;
 			
 			if(timer<=0){
-				playerAffected.GetComponent<mouvement>().ajouterSpeed(-speedToUp);
-				ControllerBonus.Instance.bonusSpeedUpHere = false;
-				Destroy (gameObject);
+				if(playerAffected!=null){
+					playerAffected.GetComponent<mouvement>().ajouterSpeed(-speedToUp);
+					ControllerBonus.Instance.bonusSpeedUpHere = false;
+					timer = -10f;
+					Destroy (gameObject);
+				}
 			}
 		}
 	}
 
-	void OnTriggerEnter(Collider col){
-		if(col.tag =="tete"){
+	void OnCollisionEnter(Collision col){
+		if(col.gameObject.tag == "tete"){
 			playerAffected = col.gameObject;
 			timer = 5;
 			playerAffected.GetComponent<mouvement>().ajouterSpeed(speedToUp);

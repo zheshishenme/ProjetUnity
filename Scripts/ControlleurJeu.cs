@@ -76,8 +76,8 @@ public class ControlleurJeu : MonoBehaviour {
 					Destroy(obj);
 				}
 
-				// destruction des bonnus SpeedUp5
-				foreach ( GameObject obj in GameObject.FindGameObjectsWithTag("speedUp5")){
+				// destruction des bonnus 
+				foreach ( GameObject obj in GameObject.FindGameObjectsWithTag("bonus")){
 					Destroy(obj);
 					ControllerBonus.Instance.bonusSpeedUpHere = false;
 				}
