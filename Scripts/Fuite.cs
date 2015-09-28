@@ -22,9 +22,31 @@ public class Fuite : MonoBehaviour {
 		}
 	}
 	Vector3 getDestination(Vector3 playerPosition){
-		float destX = transform.position.x;
-		float destZ = transform.position.z;
+		float distx = Mathf.Abs(transform.position.x - playerPosition.x);
+		float distz = Mathf.Abs(transform.position.z - playerPosition.z);
 
+		distx= distx/(Mathf.Sqrt((distx*distx)+(distz*distz)));
+		distz= distz/(Mathf.Sqrt((distx*distx)+(distz*distz)));
+
+		float destx;
+		float destz;
+
+		if(playerPosition.x <= transform.position.x){
+			destx = transform.position.x + distx;
+
+		}
+		else{
+			destx = transform.position.x - distx;
+		}
+
+		if(playerPosition.z <= transform.position.z){
+			destz = transform.position.z + distz;
+		}
+		else{
+			destz = transform.position.z - distz;
+		}
+		return new Vector3(destx,playerPosition.y,destz);
+		/*
 		if(playerPosition.x <= destX){
 			destX ++;
 		}
@@ -37,8 +59,8 @@ public class Fuite : MonoBehaviour {
 		}
 		else{
 			destZ--;
-		}
-		return new Vector3(destX,playerPosition.y,destZ);
+		}*/
+		return Vector3.zero;
 	}
 
 	void OnTriggerEnter(Collider player){
