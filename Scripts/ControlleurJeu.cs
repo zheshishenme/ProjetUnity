@@ -22,6 +22,7 @@ public class ControlleurJeu : MonoBehaviour {
 	float timer = 0;
 	public bool gameStarted = false;
 	bool ask = false;
+	public bool recordInput = true;
 	
 	void Update () {
 		if(gameStarted){

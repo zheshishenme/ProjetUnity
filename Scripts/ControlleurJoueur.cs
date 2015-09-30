@@ -22,30 +22,49 @@ public class ControlleurJoueur : MonoBehaviour{
 
 	void Start () {
 		scriptMouvement = gameObject.transform.Find("tete").GetComponent<mouvement>();
+		//scriptMouvement = gameObject.GetComponent<mouvement>();
 	}
 
 	void Update(){
 		if(ControlleurJeu.Instance.gameStarted){
-			if(gameObject.name =="Joueur"){
+			if(gameObject.name =="Joueur" ||gameObject.name =="ThirdPersonController" ){
 				gameObject.transform.Find("tete").GetComponent<mouvement>().trait = Resources.Load("traitRouge") as GameObject;
-				if(Input.GetKey(KeyCode.RightArrow)){
-
+				if(Input.GetKey(KeyCode.RightArrow) && ControlleurJeu.Instance.recordInput){
+					//scriptMouvement.avance= false;
 					scriptMouvement.droite();
 				}
 				
-				if(Input.GetKey(KeyCode.LeftArrow)){
+				else if(Input.GetKey(KeyCode.LeftArrow) && ControlleurJeu.Instance.recordInput){
+					//scriptMouvement.avance= false;
 					scriptMouvement.gauche();
+				}
+				else if(Input.GetKey(KeyCode.UpArrow) && ControlleurJeu.Instance.recordInput && scriptMouvement.peuxMonter()){
+					ControlleurJeu.Instance.recordInput = false;
+					//scriptMouvement.avance= false;
+					scriptMouvement.avance= true;
+					scriptMouvement.monte = true;
+					scriptMouvement.haut();
+				}
+				else if(Input.GetKey(KeyCode.DownArrow) && ControlleurJeu.Instance.recordInput && scriptMouvement.peuxDescendre()){
+					ControlleurJeu.Instance.recordInput = false;
+					//scriptMouvement.avance= false;
+					scriptMouvement.avance= true;
+					scriptMouvement.descend = true;
+					scriptMouvement.bas();
+				}
+				else{
+					scriptMouvement.avance= true;
 				}
 				
 			}
 
 			else if(gameObject.name == "Joueur2"){
 				gameObject.transform.Find("tete").GetComponent<mouvement>().trait = Resources.Load("traitBleu") as GameObject;
-				if(Input.GetKey(KeyCode.E)){
+				if(Input.GetKey(KeyCode.E)&&ControlleurJeu.Instance.recordInput){
 					scriptMouvement.droite();
 				}
 				
-				if(Input.GetKey(KeyCode.A)){
+				if(Input.GetKey(KeyCode.A)&& ControlleurJeu.Instance.recordInput){
 					scriptMouvement.gauche();
 				}
 				
