@@ -23,6 +23,7 @@ public class ControlleurJeu : MonoBehaviour {
 	public bool gameStarted = false;
 	bool ask = false;
 	public bool recordInput = true;
+	public bool touchesInversees = false;
 	
 	void Update () {
 		if(gameStarted){
@@ -109,13 +110,13 @@ public class ControlleurJeu : MonoBehaviour {
 	void createNewPlayer(){
 		//chargement des prefabs
 		GameObject joueur1 = Resources.Load("Joueur")as GameObject;
-		GameObject joueur2 = Resources.Load("Joueur2")as GameObject;
+		//GameObject joueur2 = Resources.Load("Joueur2")as GameObject;
 
 		//instantiation dans la scène
 		GameObject go = Instantiate(joueur1,joueur1.transform.position, joueur1.transform.rotation) as GameObject;
 		go.name = "Joueur";
 		
-		go = Instantiate(joueur2,joueur2.transform.position, joueur2.transform.rotation) as GameObject;
-		go.name = "Joueur2";
+		//go = Instantiate(joueur2,joueur2.transform.position, joueur2.transform.rotation) as GameObject;
+		//go.name = "Joueur2";
 	}
 }

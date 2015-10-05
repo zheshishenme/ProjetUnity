@@ -57,7 +57,7 @@ public class mouvement : MonoBehaviour {
 
 			if(traceTrait){
 				timeTrace+=Time.deltaTime;
-				if(timeTrace >= 0.1f/speed){
+				if(timeTrace >= 0.2f/speed){
 					trace();
 					timeTrace=0;
 				}
@@ -71,14 +71,14 @@ public class mouvement : MonoBehaviour {
 	}
 
 	public bool peuxMonter(){
-		if(transform.position.y >= 30){ // >= hauteurtrait + hauteurtrait/2 -6 pour etre sur
+		if(transform.position.y >= 25){ // >= hauteurtrait + hauteurtrait/2 -6 pour etre sur
 			return false;
 		}
 		return true;
 	}
 
 	public bool peuxDescendre(){
-		if(transform.position.y <= 19 ){ // >= hauteurtrait - hauteurtrait/2 +6 pour etre sur
+		if(transform.position.y <= 21 ){ // >= hauteurtrait - hauteurtrait/2 +6 pour etre sur
 			return false;
 		}
 		return true;

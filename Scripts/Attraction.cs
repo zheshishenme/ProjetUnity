@@ -44,20 +44,22 @@ public class Attraction : MonoBehaviour {
 			return Vector3.zero;
 		}
 		else{
-			float distanceMin = Vector3.Distance(transform.position,closest.transform.position);
-			for (int i = 1; i < playersToFollow.Count; i++){
-				if(playersToFollow[i]!=null){
-					float distance = Vector3.Distance(transform.position, playersToFollow[i].transform.position);
-					if(distance <= distanceMin){
-						distanceMin=distance;
-						closest = playersToFollow[i];
+			if(closest!=null){
+				float distanceMin = Vector3.Distance(transform.position,closest.transform.position);
+				for (int i = 1; i < playersToFollow.Count; i++){
+					if(playersToFollow[i]!=null){
+						float distance = Vector3.Distance(transform.position, playersToFollow[i].transform.position);
+						if(distance <= distanceMin){
+							distanceMin=distance;
+							closest = playersToFollow[i];
+						}
+					}
+					else{
+						playersToFollow.Remove(playersToFollow[i]);
 					}
 				}
-				else{
-					playersToFollow.Remove(playersToFollow[i]);
-				}
+				return closest.transform.position;
 			}
-			return closest.transform.position;
 		}
 		return Vector3.zero;
 	}
