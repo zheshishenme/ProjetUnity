@@ -28,15 +28,23 @@ public class bonusExplosion : MonoBehaviour {
 	}
 	
 	void OnParticleCollision(GameObject go){
-		if(go.tag =="tete"){
+		if(go.gameObject.tag=="tete"){ // si le collider détecté est taggé "trait" ou "mur"
+			ControlleurJoueur joueur = go.transform.parent.GetComponent<ControlleurJoueur>();
 			if(go.transform.parent.gameObject != gameobjectImmunised){
-				go.transform.parent.GetComponent<ControlleurJoueur>().detruire();
-				//Destroy(gameObject);
+				if(joueur.nbVie>1){
+					joueur.enlever1Vie();
+				}
+				else{
+					joueur.detruire();
+				}
 			}
+		}
+		else if (go.gameObject.tag=="badBonus" || go.gameObject.tag=="goodBonus"){
+			Destroy(go.gameObject);
 		}
 	}
 
-	void lanceAnimation(){
+	public void lanceAnimation(){
 		GetComponent<MeshRenderer>().enabled=false;
 		GetComponent<SphereCollider>().enabled = false;
 		GetComponent<ParticleSystem>().Play();

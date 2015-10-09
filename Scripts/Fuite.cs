@@ -7,6 +7,7 @@ public class Fuite : MonoBehaviour {
 	//bloquer au limite du terrain !!
 
 	List<GameObject> playersToEscape = new List<GameObject>();
+	List<GameObject> bonusToEscape = new List<GameObject>();
 	float speed = 0.4f;
 	float count = 0;
 	
@@ -18,12 +19,16 @@ public class Fuite : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if(playersToEscape.Count>0){
-			transform.position = Vector3.MoveTowards(transform.position,getDestination(getClosestPlayerPosition()),  speed);
+			transform.position = Vector3.MoveTowards(transform.position,getDestination(getClosestPosition(ref playersToEscape)),  speed);
+		}
+		else if(bonusToEscape.Count>0){
+			transform.position = Vector3.MoveTowards(transform.position,getDestination(getClosestPosition(ref bonusToEscape)),  speed);
 		}
 	}
-	Vector3 getDestination(Vector3 playerPosition){
-		float distx = Mathf.Abs(transform.position.x - playerPosition.x);
-		float distz = Mathf.Abs(transform.position.z - playerPosition.z);
+
+	Vector3 getDestination(Vector3 objectPosition){
+		float distx = Mathf.Abs(transform.position.x - objectPosition.x);
+		float distz = Mathf.Abs(transform.position.z - objectPosition.z);
 
 		distx= distx/(Mathf.Sqrt((distx*distx)+(distz*distz)));
 		distz= distz/(Mathf.Sqrt((distx*distx)+(distz*distz)));
@@ -31,7 +36,7 @@ public class Fuite : MonoBehaviour {
 		float destx;
 		float destz;
 
-		if(playerPosition.x <= transform.position.x){
+		if(objectPosition.x <= transform.position.x){
 			destx = transform.position.x + distx;
 
 		}
@@ -39,68 +44,64 @@ public class Fuite : MonoBehaviour {
 			destx = transform.position.x - distx;
 		}
 
-		if(playerPosition.z <= transform.position.z){
+		if(objectPosition.z <= transform.position.z){
 			destz = transform.position.z + distz;
 		}
 		else{
 			destz = transform.position.z - distz;
 		}
-		return new Vector3(destx,playerPosition.y,destz);
-		/*
-		if(playerPosition.x <= destX){
-			destX ++;
-		}
-		else{
-			destX --;
-		}
-
-		if(playerPosition.z <= destZ){
-			destZ ++;
-		}
-		else{
-			destZ--;
-		}*/
-		return Vector3.zero;
+		//return new Vector3(destx,objectPosition.y,destz); // va sur les 3 niveaux
+		return new Vector3(destx,transform.position.y,destz); // que sur son niveau
 	}
 
-	void OnTriggerEnter(Collider player){
-		if(player.gameObject.tag=="tete"){
-			playersToEscape.Add(player.gameObject);
+	void OnTriggerEnter(Collider objet){
+		if(objet.gameObject.tag=="tete"){
+			playersToEscape.Add(objet.gameObject);
+		}
+
+		else if(objet.gameObject.tag=="badBonus" && objet != gameObject){
+			bonusToEscape.Add(objet.gameObject);
+		}
+
+	}
+	
+	void OnTriggerExit(Collider objet){
+		if(objet.gameObject.tag=="tete"){
+			playersToEscape.Remove(objet.gameObject);
+		}
+		else if(objet.gameObject.tag=="badBonus"){
+			bonusToEscape.Remove(objet.gameObject);
 		}
 	}
 	
-	void OnTriggerExit(Collider player){
-		if(player.gameObject.tag=="tete"){
-			playersToEscape.Remove(player.gameObject);
-		}
-	}
-	
-	Vector3 getClosestPlayerPosition(){
-		GameObject closest = playersToEscape[0];
-		if(playersToEscape.Count==1){
+	Vector3 getClosestPosition(ref List<GameObject> listObject){
+		GameObject closest = listObject[0];
+		if(listObject.Count==1){
 			if(closest!=null){ // permet d'éviter de le retourner si le jouerur meurt entre temps
 				return closest.transform.position;
 			}
 			else{
-				playersToEscape.Remove(closest);
+				listObject.Remove(closest);
 			}
 			return Vector3.zero;
 		}
 		else{
-			float distanceMin = Vector3.Distance(transform.position,closest.transform.position);
-			for (int i = 1; i < playersToEscape.Count; i++){
-				if(playersToEscape[i]!=null){
-					float distance = Vector3.Distance(transform.position, playersToEscape[i].transform.position);
-					if(distance <= distanceMin){
-						distanceMin=distance;
-						closest = playersToEscape[i];
+			if(closest!=null){
+				float distanceMin = Vector3.Distance(transform.position,closest.transform.position);
+				for (int i = 1; i < listObject.Count; i++){
+					if(listObject[i]!=null){
+						float distance = Vector3.Distance(transform.position, listObject[i].transform.position);
+						if(distance <= distanceMin){
+							distanceMin=distance;
+							closest = listObject[i];
+						}
+					}
+					else{
+						listObject.Remove(listObject[i]);
 					}
 				}
-				else{
-					playersToEscape.Remove(playersToEscape[i]);
-				}
+				return closest.transform.position;
 			}
-			return closest.transform.position;
 		}
 		return Vector3.zero;
 	}

@@ -39,12 +39,12 @@ public class ControlleurJeu : MonoBehaviour {
 				*/
 				///// fin test ////
 
-				if(!ControllerBonus.Instance.bonusSpeedUpHere){
+				/*if(!ControllerBonus.Instance.bonusSpeedUpHere){
 					ControllerBonus.Instance.creerSpeedUpBonus();
 				}
 				if(!ControllerBonus.Instance.bonusDarkHere){
 					ControllerBonus.Instance.creerDarkBonus();
-				}
+				}*/
 				timer = 0;
 			}
 		}
@@ -79,7 +79,11 @@ public class ControlleurJeu : MonoBehaviour {
 				}
 
 				// destruction des bonnus 
-				foreach ( GameObject obj in GameObject.FindGameObjectsWithTag("bonus")){
+				foreach ( GameObject obj in GameObject.FindGameObjectsWithTag("goodBonus")){
+					Destroy(obj);
+					ControllerBonus.Instance.bonusSpeedUpHere = false;
+				}
+				foreach ( GameObject obj in GameObject.FindGameObjectsWithTag("badBonus")){
 					Destroy(obj);
 					ControllerBonus.Instance.bonusSpeedUpHere = false;
 				}
