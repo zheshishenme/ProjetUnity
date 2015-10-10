@@ -4,55 +4,78 @@ using System.Collections;
 public class ControlleurJeu : MonoBehaviour {
 
 	#region singleton
-	private static ControlleurJeu instance;
+	static ControlleurJeu _instance;
 	
-	// Static singleton property
-	public static ControlleurJeu Instance
-	{
-		// Here we use the ?? operator, to return 'instance' if 'instance' does not equal null
-		// otherwise we assign instance to a new component and return that
+	static public bool isActive { 
 		get { 
-			return instance ?? (instance = new GameObject("Singleton Controleur Jeu").AddComponent<ControlleurJeu>()); 
+			return _instance != null; 
+		} 
+	}
+	
+	static public ControlleurJeu instance
+	{
+		get
+		{
+			if (_instance == null)
+			{
+				_instance = Object.FindObjectOfType(typeof(ControlleurJeu)) as ControlleurJeu;
+				
+				if (_instance == null)
+				{
+					GameObject go = new GameObject("ControlleurJeu");
+					DontDestroyOnLoad(go);
+					_instance = go.AddComponent<ControlleurJeu>();
+				}
+			}
+			return _instance;
 		}
 	}
+
+
 	#endregion
 
 
-	float timeFromStart = 0;
-	float timer = 0;
+	float tempsInitiale = 60;
+	float tempsRestant = 0;
 	public bool gameStarted = false;
 	bool ask = false;
 	public bool recordInput = true;
 	public bool touchesInversees = false;
+	bool finJeu = false;
+
+	void Start(){
+		createNewPlayer();
+	}
 	
 	void Update () {
 		if(gameStarted){
-			timeFromStart += Time.deltaTime;
-			timer+= Time.deltaTime;
+			tempsRestant -= Time.deltaTime;
 
-			if(timer >= 5){
+			///// test ///
+		 	/*
+			GameObject joueur = GameObject.Find("Joueur");
+			joueur.transform.Find("tete").GetComponent<mouvement>().traceTrait = false;
+			*/
+			///// fin test ////
 
-				///// test ///
-			 	/*
-				GameObject joueur = GameObject.Find("Joueur");
-				joueur.transform.Find("tete").GetComponent<mouvement>().traceTrait = false;
-				*/
-				///// fin test ////
+			/*if(!ControllerBonus.Instance.bonusSpeedUpHere){
+				ControllerBonus.Instance.creerSpeedUpBonus();
+			}
+			if(!ControllerBonus.Instance.bonusDarkHere){
+				ControllerBonus.Instance.creerDarkBonus();
+			}*/
 
-				/*if(!ControllerBonus.Instance.bonusSpeedUpHere){
-					ControllerBonus.Instance.creerSpeedUpBonus();
-				}
-				if(!ControllerBonus.Instance.bonusDarkHere){
-					ControllerBonus.Instance.creerDarkBonus();
-				}*/
-				timer = 0;
+			if(tempsRestant<=0){
+				finJeu=true;
+				ask = true;
 			}
 		}
 		else{
 			if(Input.GetKey(KeyCode.Space)){
 				gameStarted = true;
+				recordInput = true;
 			}
-			timeFromStart = 0;
+			tempsRestant = tempsInitiale;
 		}
 
 	}
@@ -71,7 +94,7 @@ public class ControlleurJeu : MonoBehaviour {
 		if(ask){
 
 			//bouton recommencer
-			if(GUI.Button(new Rect(Screen.width/2 -40, Screen.height/2-20,100,60),"Recommencer")){
+			if(GUI.Button(new Rect(Screen.width/2 -40, Screen.height/2-20,250,60),"Recommencer")){
 
 				// destruction des explosions
 				foreach ( GameObject obj in GameObject.FindGameObjectsWithTag("effetExplose")){
@@ -81,11 +104,11 @@ public class ControlleurJeu : MonoBehaviour {
 				// destruction des bonnus 
 				foreach ( GameObject obj in GameObject.FindGameObjectsWithTag("goodBonus")){
 					Destroy(obj);
-					ControllerBonus.Instance.bonusSpeedUpHere = false;
+
 				}
 				foreach ( GameObject obj in GameObject.FindGameObjectsWithTag("badBonus")){
 					Destroy(obj);
-					ControllerBonus.Instance.bonusSpeedUpHere = false;
+
 				}
 
 				// destruction des joueurs
@@ -95,7 +118,7 @@ public class ControlleurJeu : MonoBehaviour {
 
 				createNewPlayer();
 
-				GameObject.Find("sun").GetComponent<Light>().enabled = true;
+				//GameObject.Find("sun").GetComponent<Light>().enabled = true;
 
 				gameStarted = false;
 				ask = false;
@@ -105,8 +128,18 @@ public class ControlleurJeu : MonoBehaviour {
 			if(GUI.Button(new Rect(Screen.width/2 -40, Screen.height/2+20,250,60),"Appuyer sur espace pour commencer")){
 				gameStarted = true;
 			}
+
+		}
+		
+
+
+		GUI.Label(new Rect(10,10,200,30), "Temps restant :  " + (int)tempsRestant + " secondes.");
+
+		if(GUI.Button(new Rect(10 , 50 ,60,30),"Quitter")){
+			Application.LoadLevel("Menu");
 		}
 	}
+
 
 	/// <summary>
 	/// Création des nouveaux joueurs (fontion à optimiser)
@@ -122,5 +155,9 @@ public class ControlleurJeu : MonoBehaviour {
 		
 		//go = Instantiate(joueur2,joueur2.transform.position, joueur2.transform.rotation) as GameObject;
 		//go.name = "Joueur2";
+	}
+
+	public void ajouterTemps(){
+		tempsRestant += 15;
 	}
 }

@@ -16,13 +16,15 @@ public class mouvement : MonoBehaviour {
 	public bool avance = true;
 
 	float timeTrace=0;
-	public bool monte = false;
-	public bool descend = false;
+	public bool doitMonter = false;
+	public bool doitDescendre = false;
 
 	public bool canGoUp = true;
 	public bool canGoDown = true;
 
-	float lastStage;
+	public bool doitSauter;
+
+	//float lastStage;
 
 	GameObject corps;
 
@@ -32,28 +34,30 @@ public class mouvement : MonoBehaviour {
 	}
 	
 	void Update () {
-		if(ControlleurJeu.Instance.gameStarted){	
+		if(ControlleurJeu.instance.gameStarted){	
 			if(avance){
 				avancer();
 			}
-
-			if(monte){
-				if(transform.position.y >= lastStage + hauteurTrait/2){
-					monte = false;
-					transform.Rotate(transform.rotation.x,0,0);
-					bas ();
-					ControlleurJeu.Instance.recordInput = true;
+			if(doitSauter){
+				if(doitMonter){
+					if(transform.position.y >= hauteurTrait + hauteurTrait/2){
+						doitMonter = false;
+						transform.Rotate(transform.rotation.x,0,0);
+						orienteDescente ();
+						orienteDescente ();
+						doitDescendre=true;
+					}
+				}
+				if(doitDescendre){
+					if(transform.position.y <= hauteurTrait){
+						doitDescendre = false;
+						transform.Rotate(-transform.rotation.x,0,0);
+						orienteMontee ();
+						ControlleurJeu.instance.recordInput = true;
+						doitSauter = false;
+					}
 				}
 			}
-			if(descend){
-				if(transform.position.y <= lastStage - hauteurTrait/2){
-					descend = false;
-					transform.Rotate(-transform.rotation.x,0,0);
-					haut ();
-					ControlleurJeu.Instance.recordInput = true;
-				}
-			}
-
 
 			if(traceTrait){
 				timeTrace+=Time.deltaTime;
@@ -63,14 +67,9 @@ public class mouvement : MonoBehaviour {
 				}
 			}
 		}
-		else{
-
-			//myAnimation.SetBool("run",false);
-
-		}
 	}
 
-	public bool peuxMonter(){
+	/*public bool peuxMonter(){
 		if(transform.position.y >= 25){ // >= hauteurtrait + hauteurtrait/2 -6 pour etre sur
 			return false;
 		}
@@ -82,7 +81,7 @@ public class mouvement : MonoBehaviour {
 			return false;
 		}
 		return true;
-	}
+	}*/
 
 	/*
 	/// <summary>
@@ -123,7 +122,7 @@ public class mouvement : MonoBehaviour {
 	/// <summary>
 	/// Tourne la tete de "angle rotation" sur la droite
 	/// </summary>
-	public void droite(){
+	public void tourneDroite(){
 		/*myAnimation.SetBool("left",false);
 		myAnimation.SetBool("right",true);*/
 		transform.Rotate(0,angleRotation,0);
@@ -132,7 +131,7 @@ public class mouvement : MonoBehaviour {
 	/// <summary>
 	/// Tourne la tete de "angle rotation" sur la gauche
 	/// </summary>
-	public void gauche(){
+	public void tourneGauche(){
 		/*myAnimation.SetBool("left",true);
 		myAnimation.SetBool("right",false);*/
 		transform.Rotate(0,-angleRotation,0);
@@ -141,16 +140,16 @@ public class mouvement : MonoBehaviour {
 	/// <summary>
 	/// Lève la tete de angle rotation
 	/// </summary>
-	public void haut(){
-		lastStage = transform.position.y;
+	public void orienteMontee(){
+		//lastStage = transform.position.y;
 		transform.Rotate(-10* angleRotation,0,0);
 	}
 
 	/// <summary>
 	/// Baisse la tete de angle rotation
 	/// </summary>
-	public void bas(){
-		lastStage = transform.position.y;
+	public void orienteDescente(){
+		//lastStage = transform.position.y;
 		transform.Rotate(10* angleRotation,0,0);
 	}
 

@@ -11,7 +11,7 @@ public class effetInverseTouches : MonoBehaviour {
 		if(timer >=0){
 			timer+=Time.deltaTime;
 			if(timer >= inverseTime){
-				ControlleurJeu.Instance.touchesInversees = false;
+				ControlleurJeu.instance.touchesInversees = false;
 				Destroy (gameObject);
 			}
 		}
@@ -22,7 +22,7 @@ public class effetInverseTouches : MonoBehaviour {
 			GetComponent<MeshRenderer>().enabled = false;
 			GetComponent<SphereCollider>().enabled = false;
 			timer = 0;
-			ControlleurJeu.Instance.touchesInversees = true;
+			ControlleurJeu.instance.touchesInversees = true;
 		}
 	}
 

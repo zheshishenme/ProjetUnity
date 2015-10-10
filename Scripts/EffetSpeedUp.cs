@@ -21,7 +21,6 @@ public class EffetSpeedUp : MonoBehaviour {
 			if(timer<=0){
 				if(playerAffected!=null){
 					playerAffected.GetComponent<mouvement>().ajouterSpeed(-speedToUp);
-					ControllerBonus.Instance.bonusSpeedUpHere = false;
 					timer = -10f;
 					Destroy (gameObject);
 				}

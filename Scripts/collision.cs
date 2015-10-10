@@ -36,13 +36,13 @@ public class collision : MonoBehaviour {
 			}
 			else{
 				explosion();//fonction d'explosion
-				ControlleurJeu.Instance.askNewGame();//lancement fonction du controlleur de jeu pour "recommencer"
+				ControlleurJeu.instance.askNewGame();//lancement fonction du controlleur de jeu pour "recommencer"
 				joueur.detruire();//on demande au Controlleur du joueur la focntion détruire
 			}
 		}
 		else if(col.gameObject.tag == "mur" ){
 			explosion();//fonction d'explosion
-			ControlleurJeu.Instance.askNewGame();//lancement fonction du controlleur de jeu pour "recommencer"
+			ControlleurJeu.instance.askNewGame();//lancement fonction du controlleur de jeu pour "recommencer"
 			joueur.detruire();//on demande au Controlleur du joueur la focntion détruire
 		}
 	}

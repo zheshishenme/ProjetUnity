@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MouvementBonnus : MonoBehaviour {
+public class MouvementBonus : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {

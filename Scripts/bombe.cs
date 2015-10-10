@@ -6,6 +6,7 @@ public class bombe : MonoBehaviour {
 	public GameObject gameobjectImmunised;
 	float lifeTimer=-1;
 	float timeOfLife = 6;
+	bool canBeDestroy = false;
 
 	void Start () {
 		lifeTimer = 0;
@@ -18,8 +19,10 @@ public class bombe : MonoBehaviour {
 			if(lifeTimer>=timeOfLife){
 				lanceAnimation();
 			}
-			if(lifeTimer>= timeOfLife*2){
-				Destroy(gameObject);
+			if(canBeDestroy){
+				if(!GetComponent<ParticleSystem>().IsAlive()){
+					Destroy(gameObject);
+				}
 			}
 		}	
 	}
@@ -59,6 +62,7 @@ public class bombe : MonoBehaviour {
 	}
 
 	void lanceAnimation(){
+		canBeDestroy = false;
 		GetComponent<MeshRenderer>().enabled=false;
 		GetComponent<SphereCollider>().enabled = false;
 		GetComponent<ParticleSystem>().Play();

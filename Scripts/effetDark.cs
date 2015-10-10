@@ -17,7 +17,6 @@ public class effetDark : MonoBehaviour {
 				allumeLumiereAmbiante();
 				eteindreSpotJoueur();
 				timer = -10;
-				ControllerBonus.Instance.bonusDarkHere=false;
 				Destroy(gameObject);
 			}
 		}
