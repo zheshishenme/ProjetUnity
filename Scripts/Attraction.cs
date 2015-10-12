@@ -9,20 +9,64 @@ public class Attraction : MonoBehaviour {
 	float speed = 0.9f;
 	float count = 0;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
+	public bool saute = false;
+	public bool? monte = null;
+
+	bool descend;
+
+	Vector3 trajectoire;
+
 	// Update is called once per frame
 	void Update () {
 		if(playersToFollow.Count>0){
-			transform.position = Vector3.MoveTowards(transform.position, getClosestPosition(ref playersToFollow), speed);
-		}
-		else if(bonusToFollow.Count>0){
-			transform.position = Vector3.MoveTowards(transform.position, getClosestPosition(ref bonusToFollow), speed);
+			if (saute){
+				if(monte==true){
+					trajectoire = Vector3.MoveTowards(transform.position, getClosestPosition(ref playersToFollow) + new Vector3(0,10,0), speed);
+					if(transform.position.y >= 23+23){
+						monte = false;
+					}
+				}
+				else if(monte == false){
+					trajectoire = Vector3.MoveTowards(transform.position, getClosestPosition(ref playersToFollow) - new Vector3(0,10,0), speed);
+					if(transform.position.y <= 23){
+						monte = null;
+						saute = false;
+						transform.position = new Vector3(transform.position.x, 23, transform.position.z);
+					}
+				}
+
+			}
+			else{
+
+				trajectoire = Vector3.MoveTowards(transform.position, getClosestPosition(ref playersToFollow), speed);
+			}
+			transform.position = trajectoire ;
 		}
 
+
+		else if(bonusToFollow.Count>0){
+			if (saute){
+				if(monte==true){
+					trajectoire = Vector3.MoveTowards(transform.position, getClosestPosition(ref bonusToFollow) + new Vector3(0,10,0), speed);
+					if(transform.position.y >= 23+23){
+						monte = false;
+					}
+				}
+				else if(monte==false){
+					trajectoire = Vector3.MoveTowards(transform.position, getClosestPosition(ref bonusToFollow) - new Vector3(0,10,0), speed);
+					if(transform.position.y <= 23){
+						monte = null;
+						saute = false;
+						transform.position = new Vector3(transform.position.x, 23, transform.position.z);
+					}
+				}
+				
+			}
+			else{
+				trajectoire= Vector3.MoveTowards(transform.position, getClosestPosition(ref bonusToFollow), speed);
+			}
+			transform.position = trajectoire ;
+		}
 	}
 
 	void OnTriggerEnter(Collider objet){
