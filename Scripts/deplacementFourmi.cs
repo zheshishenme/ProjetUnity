@@ -18,7 +18,7 @@ public class deplacementFourmi : MonoBehaviour {
 
 	float timer = 0;
 	float timerPheromone = 0;
-	float freqPheromone = 2;
+	float freqPheromone = 0.5f;
 
 	bool moveRandom = true;
 	public bool doitTourner = false;
