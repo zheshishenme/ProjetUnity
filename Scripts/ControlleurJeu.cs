@@ -34,6 +34,7 @@ public class ControlleurJeu : MonoBehaviour {
 
 	#endregion
 
+	public enum Etat{Neutre, Excitee, Victoire, Danger, Aide};
 
 	float tempsInitiale = 60;
 	float tempsRestant = 0;
