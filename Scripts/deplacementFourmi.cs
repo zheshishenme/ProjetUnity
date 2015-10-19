@@ -9,7 +9,7 @@ public class deplacementFourmi : MonoBehaviour {
 
 	public List<GameObject> traineePheromone;
 
-	float speed = 0.1f;
+	float speed = 0.5f;
 
 	float frequenceChangementDirection = 1;
 	float maxFrequenceChangementDirection = 3;
@@ -130,7 +130,7 @@ public class deplacementFourmi : MonoBehaviour {
 				}
 
 				if(monEtat != ControllerFourmis.Type.Excitee && monEtat!=ControllerFourmis.Type.Victoire){ // si je suis pas déja excité  et que je ne suis pas déja en victoire
-					transform.Find("detecteur").GetComponent<CapsuleCollider>().radius = 4;
+					transform.Find("detecteur").GetComponent<CapsuleCollider>().radius = 10;
 					stop = true;
 					moveRandom = false;
 					rechercheMeilleurExcite = true;
@@ -153,8 +153,8 @@ public class deplacementFourmi : MonoBehaviour {
 		followExcite = false;
 		etoileTrouvee = true;
 		monEtoile = _etoile;
-		speed = 0.25f;
-		freqPheromone = 0.5f;
+		speed = 0.75f;
+		freqPheromone = 0.75f;
 		monEtat = ControllerFourmis.Type.Victoire;
 		pheromoneLePlusExcite = null;
 		listePheromonesExcitesAutour = new List<GameObject>();

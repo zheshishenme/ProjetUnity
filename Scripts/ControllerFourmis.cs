@@ -39,6 +39,7 @@ public class ControllerFourmis : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
+		listeFourmis = new List<GameObject>(GameObject.FindGameObjectsWithTag("fourmi"));
 	}
 	
 	// Update is called once per frame
