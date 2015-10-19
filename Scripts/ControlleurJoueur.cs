@@ -34,7 +34,6 @@ public class ControlleurJoueur : MonoBehaviour{
 	#endregion
 
 	mouvement scriptMouvement;
-	int score = 0;
 
 	ControlleurJeu controleur;
 
@@ -93,10 +92,7 @@ public class ControlleurJoueur : MonoBehaviour{
 		jauge =transform.Find("tete").gameObject.transform.Find("jaugeMouvementsDispos").gameObject;
 		rendererJauge = jauge.GetComponent<Renderer>();
 	}
-
-	void OnGUI(){
-		GUI.Label(new Rect(10,130,200,30), "Score :  " + score + " points.");
-	}
+	
 	void Update(){
 
 		rendererJauge.material.SetFloat ("_Cutoff", (float)(1f - (float)nbChangementsDispo/(float)maxJauge));
