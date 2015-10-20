@@ -5,8 +5,8 @@ public class pheromone : MonoBehaviour {
 
 	public deplacementFourmi myFourmiScript;
 
-	float timer = 0;
-	float dureeVie = 10;
+	public float timer = 0;
+	public float dureeVie;
 	public float monRang;
 
 	public ControllerFourmis.Type myType;

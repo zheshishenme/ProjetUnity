@@ -9,7 +9,7 @@ public class deplacementFourmi : MonoBehaviour {
 
 	public List<GameObject> traineePheromone;
 
-	float speed = 0.5f;
+	float speed = 0.75f;
 
 	float frequenceChangementDirection = 1;
 	float maxFrequenceChangementDirection = 3;
@@ -153,8 +153,8 @@ public class deplacementFourmi : MonoBehaviour {
 		followExcite = false;
 		etoileTrouvee = true;
 		monEtoile = _etoile;
-		speed = 0.75f;
-		freqPheromone = 0.75f;
+		speed = 1f;
+		freqPheromone = 1f;
 		monEtat = ControllerFourmis.Type.Victoire;
 		pheromoneLePlusExcite = null;
 		listePheromonesExcitesAutour = new List<GameObject>();
@@ -172,6 +172,12 @@ public class deplacementFourmi : MonoBehaviour {
 			lePheromone.GetComponent<pheromone>().myType = (ControllerFourmis.Type) monEtat;
 			lePheromone.GetComponent<pheromone>().myFourmiScript = this;
 			lePheromone.GetComponent<pheromone>().monRang = compteurPheromone;
+			if(monEtat == ControllerFourmis.Type.Neutre){
+				lePheromone.GetComponent<pheromone>().dureeVie = 5;
+			}
+			if(monEtat == ControllerFourmis.Type.Excitee){
+				lePheromone.GetComponent<pheromone>().dureeVie = 20;
+			}
 			compteurPheromone++;
 		}
 	}
@@ -229,6 +235,7 @@ public class deplacementFourmi : MonoBehaviour {
 	void changePheromoneEnVictoire(){
 		foreach(GameObject phero in traineePheromone){
 			phero.gameObject.GetComponent<pheromone>().myType = (ControllerFourmis.Type) ControllerFourmis.Type.Victoire;
+			phero.gameObject.GetComponent<pheromone>().dureeVie += 10;
 		}
 	}  
 
